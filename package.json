@@ -4,12 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "local": "vite",
-    "build:dev": "tsc -b && vite build --mode development",
-    "build:stg": "tsc -b && vite build --mode staging",
-    "build:prod": "tsc -b && vite build --mode production",
+    "dev": "vite",
+    "build:prod": "pnpm typecheck && vite build --mode production",
     "preview": "vite preview",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "pnpm typecheck && eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,css,json}",
     "sort:classes": "prettier --write **/*.{ts,tsx} --plugin=prettier-plugin-tailwindcss",
@@ -20,15 +18,17 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
-    "@solana/wallet-adapter-react": "^0.15.39",
-    "@solana/wallet-adapter-react-ui": "^0.9.39",
-    "@solana/web3.js": "^1.98.2",
+    "@reown/appkit": "^1.7.13",
+    "@reown/appkit-adapter-solana": "^1.7.13",
+    "@reown/appkit-adapter-wagmi": "^1.7.13",
     "@tanstack/react-query": "^5.81.5",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.10",
     "@tronweb3/tronwallet-adapters": "^1.2.9",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.10.0",
+    "bignumber.js": "^9.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
@@ -66,7 +66,7 @@
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-testing-library": "^7.5.3",
     "globals": "^16.2.0",
     "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
@@ -83,8 +83,7 @@
     "overrides": {
       "valtio": "^2.1.5",
       "@walletconnect/ethereum-provider": "^2.21.4",
-      "@walletconnect/modal": "^2.7.0",
-      "bs58": "^6.0.0"
+      "@walletconnect/modal": "^2.7.0"
     }
   }
 }
