@@ -1,5 +1,5 @@
 import { useAppGlobalStore } from '@/app/store';
-import { REFETCH_INTERVAL, WALLET_API } from '@/constants/api.constants';
+import { REFETCH_INTERVAL, TRANSFER_API } from '@/constants/api.constants';
 import axiosClient from '@/lib/api/axiosClient';
 import { useDynamicChain } from '@/providers/MultiChainProvider';
 import { useQuery } from '@tanstack/react-query';
@@ -23,10 +23,10 @@ const useConnectTransfer = () => {
   }, [wallet, account, network]);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: [WALLET_API.QUERY_KEYS.CONNECT_TRANSFER(params)],
+    queryKey: [TRANSFER_API.QUERY_KEYS.CONNECT_TRANSFER(params)],
     queryFn: () => {
-      return axiosClient.post<IConnectTransferResp>(WALLET_API.ENDPOINTS.CONNECT_TRANSFER, {
-        params: {} as IConnectTransferParams,
+      return axiosClient.post<IConnectTransferResp>(TRANSFER_API.ENDPOINTS.CONNECT_TRANSFER, {
+        params,
       });
     },
     refetchInterval: (query) => {

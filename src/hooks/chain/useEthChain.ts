@@ -1,6 +1,6 @@
 import useAppKitExract from '@/hooks/appKit/useAppKitExtract';
 import type { IChainBase } from '@/types/chain';
-import { mainnet } from '@reown/appkit/networks';
+import { mainnet, sepolia } from '@reown/appkit/networks';
 
 const useEthChain = (): IChainBase => {
   const { openConnectModal, disconnect, account, network, wallet } = useAppKitExract();
@@ -11,7 +11,7 @@ const useEthChain = (): IChainBase => {
     account,
     network: {
       caipNetwork: network.caipNetwork,
-      switchNetwork: () => network.switchNetwork(mainnet),
+      switchNetwork: () => network.switchNetwork(import.meta.env.DEV ? sepolia : mainnet),
     },
     wallet,
     transfer: async () => {},

@@ -4,7 +4,7 @@ import queryClient from '@/lib/query/queryClient';
 import type { CreateAppKit } from '@reown/appkit';
 import { SolanaAdapter } from '@reown/appkit-adapter-solana';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
-import { mainnet, solana } from '@reown/appkit/networks';
+import { mainnet, sepolia, solana } from '@reown/appkit/networks';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 
@@ -17,7 +17,7 @@ const metadata = {
   icons: [],
 };
 
-const networks = [mainnet, solana] as CreateAppKit['networks'];
+const networks = [mainnet, sepolia, solana] as CreateAppKit['networks'];
 
 const wagmiAdapter = new WagmiAdapter({
   networks,

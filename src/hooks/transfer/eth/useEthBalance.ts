@@ -1,18 +1,13 @@
 import { useAppGlobalStore } from '@/app/store';
 import { useDynamicChain } from '@/providers/MultiChainProvider';
 import { useCallback, useState } from 'react';
-import { createPublicClient, erc20Abi, formatUnits, http, type Address } from 'viem';
-import { mainnet, sepolia } from 'viem/chains';
+import { erc20Abi, formatUnits, type Address } from 'viem';
+import { usePublicClient } from 'wagmi';
 
 interface IUseEthBalanceReturn {
   ethBalance: string;
   getEthBalance: () => Promise<void>;
 }
-
-const ethClient = createPublicClient({
-  chain: import.meta.env.DEV ? sepolia : mainnet,
-  transport: http(),
-});
 
 const useEthBalance = (): IUseEthBalanceReturn => {
   const {
@@ -21,25 +16,30 @@ const useEthBalance = (): IUseEthBalanceReturn => {
   const {
     transferDetails: { tokenAddress },
   } = useAppGlobalStore();
+  const publicClient = usePublicClient();
 
   const [ethBalance, setEthBalance] = useState('');
 
   const getEthBalance = useCallback(async () => {
+    if (!publicClient) {
+      throw new Error('ETH public client is not available');
+    }
+
     const [balance, decimals] = await Promise.all([
-      ethClient.readContract({
+      publicClient.readContract({
         address: tokenAddress as Address,
         abi: erc20Abi,
         functionName: 'balanceOf',
         args: [address as Address],
       }),
-      ethClient.readContract({
+      publicClient.readContract({
         address: tokenAddress as Address,
         abi: erc20Abi,
         functionName: 'decimals',
       }),
     ]);
     setEthBalance(formatUnits(balance, decimals));
-  }, [address, tokenAddress]);
+  }, [address, tokenAddress, publicClient]);
 
   return {
     ethBalance,

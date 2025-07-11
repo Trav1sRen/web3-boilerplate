@@ -25,6 +25,7 @@ const useTransferEth = (): IUserTransferEthReturn => {
         status: 'failed',
         error: new Error('Invalid transfer amount. Please enter a positive number.'),
       });
+      return;
     }
 
     // Check user balance
@@ -36,6 +37,7 @@ const useTransferEth = (): IUserTransferEthReturn => {
         status: 'failed',
         error: new Error('Insufficient balance for transfer.'),
       });
+      return;
     }
   }, [transferAmount, ethBalance, getEthBalance]);
 
